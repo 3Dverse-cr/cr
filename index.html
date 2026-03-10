@@ -7,11 +7,12 @@
     <style>
         body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
         header { background: #1a1a1a; color: #00d4ff; padding: 20px; text-align: center; border-bottom: 4px solid #00d4ff; }
-        nav { background: #333; padding: 10px; text-align: center; position: sticky; top: 0; z-index: 100; }
+        nav { background: #333; padding: 10px; text-align: center; position: sticky; top: 0; z-index: 100; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; }
         
         .nav-btn { padding: 12px 20px; margin: 5px; cursor: pointer; background: #00d4ff; border: none; font-weight: bold; border-radius: 8px; }
         .soc-btn { padding: 12px 20px; margin: 5px; cursor: pointer; background: #ff0050; color: white; border: none; font-weight: bold; border-radius: 8px; }
         .cart-btn { padding: 12px 20px; margin: 5px; cursor: pointer; background: #ffc107; color: #333; border: none; font-weight: bold; border-radius: 8px; }
+        .login-btn { padding: 12px 20px; margin: 5px; cursor: pointer; background: #fff; color: #333; border: 2px solid #00d4ff; font-weight: bold; border-radius: 8px; margin-left: auto; }
         
         .page { display: none; padding: 20px; max-width: 1000px; margin: 20px auto; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); min-height: 400px; }
         .active { display: block; }
@@ -26,10 +27,15 @@
         .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding: 10px 0; }
         .remove-btn { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
         
-        /* Модальне вікно */
+        /* Модальні вікна */
         .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
-        .modal-content { background: white; margin: 20% auto; padding: 20px; border-radius: 15px; width: 280px; text-align: center; }
+        .modal-content { background: white; margin: 15% auto; padding: 25px; border-radius: 15px; width: 300px; text-align: center; }
         .soc-link { display: block; padding: 15px; margin: 10px 0; background: #eee; color: #333; text-decoration: none; font-weight: bold; border-radius: 10px; }
+        
+        input[type="text"] { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
+        
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #00d4ff; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 15px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -42,17 +48,20 @@
         <button class="nav-btn" onclick="showPage('p-home')">Головна</button>
         <button class="nav-btn" onclick="showPage('p-shop')">Каталог</button>
         <button class="cart-btn" onclick="showPage('p-cart')">Кошик 🛒 (<span id="cart-count">0</span>)</button>
-        <button class="soc-btn" onclick="openM()">Соцмережі 📱</button>
+        <button class="soc-btn" onclick="openModal('m-soc')">Соцмережі 📱</button>
+        <button id="nav-login-btn" class="login-btn" onclick="openModal('m-login')">Увійти 👤</button>
     </nav>
-
-    <div id="p-home" class="page active">
+<div id="p-home" class="page active">
         <div style="text-align: center; padding: 40px 10px;">
             <h2>3Dverse - СОЦІАЛЬНЕ ШКІЛЬНЕ ПІДПРИЄМНИЦТВО СПРЯМОВАНЕ НА:</h2>
-            <p style="text-align: left; display: inline-block; max-width: 600px;">
-                1. Створення корисних речей для школи – навчальних матеріалів, дидактичних ігор та елементів декору, що оживляють освітній простір;<br><br>
-                2. Підтримку дітей з особливими освітніми потребами – виготовлення тактильних матеріалів і 3D-іграшок, які допомагають навчатися через дотик і гру;<br><br>
-                3. Розвиток технічної творчості школярів – навчання 3D-моделюванню, дизайну та підприємництву через практику та командну роботу;<br><br>
-                4. Соціальну підтримку громади – спрямування 15% прибутку на реалізацію освітніх і благодійних ініціатив (наприклад, закупівлю матеріалів для інклюзивних класів).
+            <p style="white-space: pre-line; text-align: left; display: inline-block; max-width: 800px; font-size: 16px; line-height: 1.6;">
+1. Створення корисних речей для школи – навчальних матеріалів, дидактичних ігор та елементів декору, що оживляють освітній простір; 
+
+2. Підтримку дітей з особливими освітніми потребами – виготовлення тактильних матеріалів і 3D-іграшок, які допомагають навчатися через дотик і гру; 
+
+3. Розвиток технічної творчості школярів – навчання 3D-моделюванню, дизайну та підприємництву через практику та командну роботу; 
+
+4. Соціальну підтримку громади – спрямування 15% прибутку на реалізацію освітніх і благодійних ініціатив (наприклад, закупівлю матеріалів для інклюзивних класів).
             </p>
             <br>
             <button class="nav-btn" onclick="showPage('p-shop')" style="padding: 15px 30px; margin-top: 20px;">Дивитися каталог</button>
@@ -66,8 +75,7 @@
 
     <div id="p-cart" class="page">
         <h2 style="text-align: center;">Ваш кошик</h2>
-        <div id="cart-container" style="max-width: 600px; margin: 0 auto;">
-            </div>
+        <div id="cart-container" style="max-width: 600px; margin: 0 auto;"></div>
         <div style="max-width: 600px; margin: 20px auto; text-align: right;">
             <h3 id="cart-total">Разом: 0 грн</h3>
             <button id="checkout-btn" class="order-btn" style="display: none; width: auto; padding: 15px 30px;" onclick="checkout()">Оформити замовлення</button>
@@ -79,20 +87,39 @@
             <h3>Ми в</h3>
             <a href="https://www.instagram.com/3d.v.e.r.s.e?igsh=MTY5ZG0zcHRxbmpzbw==" target="_blank" class="soc-link">Instagram</a>
             <a href="https://www.tiktok.com/@3d.v.e.r.s.e?_r=1&_t=ZS-94AHkaafY4G" target="_blank" class="soc-link">TikTok</a>
-            <button onclick="closeM()" style="margin-top:10px; cursor:pointer; border:none; background:none; color:red;">Закрити</button>
+            <button onclick="closeModal('m-soc')" style="margin-top:10px; cursor:pointer; border:none; background:none; color:red;">Закрити</button>
+        </div>
+    </div>
+
+    <div id="m-login" class="modal">
+        <div class="modal-content">
+            <button onclick="closeAuthModal()" style="float:right; border:none; background:none; font-size:20px; cursor:pointer;">✖</button>
+            <h3 style="margin-top:0;">Вхід у систему</h3>
+            
+            <div id="auth-step-1">
+                <p>Введіть номер телефону для авторизації:</p>
+                <input type="text" id="user-phone" placeholder="+380..." value="+380">
+                <button class="nav-btn" style="width:100%;" onclick="startAuth()">Далі ➔</button>
+            </div>
+
+            <div id="auth-step-2" style="display:none;">
+                <p>Щоб підтвердити вхід, перейдіть у нашого Telegram-бота та натисніть "Розпочати"</p>
+                <a id="tg-auth-link" href="#" target="_blank" class="nav-btn" style="display:block; text-decoration:none; padding:15px; margin:15px 0;">Перейти в Telegram 🚀</a>
+                <div class="loader"></div>
+                <p style="font-size:12px; color:#666;">Очікуємо підтвердження...</p>
+            </div>
         </div>
     </div>
 
     <script>
-        // ТЕЛЕГРАМ ДАНІ
         var TOKEN = "8669138374:AAG59umyk8H570ubxyuwUxDI0_Nc9KSttB4";
-        var CHAT_ID = "6995001814";
+        var CHAT_ID = "6995001814"; 
+        var BOT_USERNAME = "Zamovlennya3Dverse_bot"; // <--- ОБОВ'ЯЗКОВО ЗМІНИ ЦЕ НА СВІЙ ЮЗЕРНЕЙМ (без @)
 
-        // ТВОЇ ТОВАРИ
         var products = [
             { name: "Кораблик", price: "111 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-64454ccc-9bae-48e3-a5c0-9895e4c4e689.jpg" },
             { name: "Антистрес - Колесо", price: "65 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-ee17497a-4870-442f-b3b4-175bf8eb2b5b.jpg" },
-            { name: "Balance Game", price: "331 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-3be97cd2-b7da-44f1-b1da-90788789e15a.jpg" },
+{ name: "Balance Game", price: "331 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-3be97cd2-b7da-44f1-b1da-90788789e15a.jpg" },
             { name: "Брелок  Сердечко", price: "23 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-cb34c139-2531-4a2a-b22c-5d0d2527f9eb.jpg" },
             { name: "Підставка для телефону", price: "130 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-fd978f11-2a37-46cb-984e-75085a8da3fc.jpg" },
             { name: "Гачок", price: "12 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-c1660a01-d0b6-4841-b7d0-c0c743c83bae.jpg" },
@@ -116,45 +143,93 @@
             { name: "Бренок - Ангелочок", price: "24 грн", img: "https://cdn.phototourl.com/uploads/2026-02-24-b36db2fc-c022-4548-8756-75a952bbb7b1.jpg" }
         ];
 
-        var cart = []; // Масив для зберігання товарів у кошику
+        var cart = [];
+        var currentUser = null; 
+        var authInterval = null;
+        var currentAuthCode = null;
 
-        // Універсальна функція для перемикання сторінок
         function showPage(pageId) {
-            document.getElementById('p-home').style.display = 'none';
-            document.getElementById('p-shop').style.display = 'none';
-            document.getElementById('p-cart').style.display = 'none';
-            
+            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
             document.getElementById(pageId).style.display = 'block';
-            
             if (pageId === 'p-shop') renderCatalog();
             if (pageId === 'p-cart') renderCart();
         }
 
-        function openM() { document.getElementById('m-soc').style.display = 'block'; }
-        function closeM() { document.getElementById('m-soc').style.display = 'none'; }
+        function openModal(id) { document.getElementById(id).style.display = 'block'; }
+function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function closeAuthModal() {
+            closeModal('m-login');
+            clearInterval(authInterval);
+            document.getElementById('auth-step-1').style.display = 'block';
+            document.getElementById('auth-step-2').style.display = 'none';
+        }
 
-        // Відображення каталогу
+        // --- ЛОГІКА АВТОРИЗАЦІЇ ---
+        function startAuth() {
+            if(BOT_USERNAME === "@Zamovlennya3Dverse_bot") {
+                alert("Помилка: Адміністратор ще не налаштував бота! Впишіть BOT_USERNAME у коді.");
+                return;
+            }
+
+            var phone = document.getElementById('user-phone').value;
+            if (phone.length < 10) return alert("Введіть коректний номер!");
+
+            currentAuthCode = Math.floor(10000 + Math.random() * 90000); 
+            var tgLink = "https://t.me/" + BOT_USERNAME + "?start=" + currentAuthCode;
+
+            document.getElementById('auth-step-1').style.display = 'none';
+            document.getElementById('auth-step-2').style.display = 'block';
+            document.getElementById('tg-auth-link').href = tgLink;
+
+            authInterval = setInterval(checkTelegramUpdates, 3000);
+        }
+
+        function checkTelegramUpdates() {
+            fetch("https://api.telegram.org/bot" + TOKEN + "/getUpdates")
+            .then(res => res.json())
+            .then(data => {
+                if (data.ok && data.result) {
+                    for (var i = 0; i < data.result.length; i++) {
+                        var msg = data.result[i].message;
+                        if (msg && msg.text === "/start " + currentAuthCode) {
+                            clearInterval(authInterval);
+                            loginSuccess(msg.from.first_name, msg.chat.id, document.getElementById('user-phone').value);
+                            return;
+                        }
+                    }
+                }
+            }).catch(e => console.log("Помилка мережі", e));
+        }
+
+        function loginSuccess(name, tgId, phone) {
+            currentUser = { name: name, tgId: tgId, phone: phone };
+            alert("Успішно авторизовано! Привіт, " + name);
+            closeAuthModal();
+            
+            var loginBtn = document.getElementById('nav-login-btn');
+            loginBtn.innerText = name + " 🟢";
+            loginBtn.style.borderColor = "#28a745";
+            loginBtn.onclick = function() { alert("Ви увійшли як " + name + " (" + phone + ")"); };
+        }
+
+        // --- ЛОГІКА КОШИКА ТА КАТАЛОГУ ---
         function renderCatalog() {
             var html = "";
             for (var i = 0; i < products.length; i++) {
-                var p = products[i];
                 html += '<div class="product-card">' +
-                        '<img src="' + p.img + '" class="product-img">' +
-                        '<h3>' + p.name + '</h3>' +
-                        '<p style="color:#28a745; font-weight:bold;">' + p.price + '</p>' +
-                        '<button class="order-btn" onclick="addToCart(' + i + ')">У кошик 🛒</button>' +
+                        '<img src="' + products[i].img + '" class="product-img">' +
+                        '<h3>' + products[i].name + '</h3>' +
+                        '<p style="color:#28a745; font-weight:bold;">' + products[i].price + '</p>' +
+                        '<button class="order-btn" onclick="addToCart(' + i + ', this)">У кошик 🛒</button>' +
                         '</div>';
             }
             document.getElementById('items-container').innerHTML = html;
         }
 
-        // Додавання товару в кошик
-        function addToCart(index) {
+        function addToCart(index, btn) {
             cart.push(products[index]);
             document.getElementById('cart-count').innerText = cart.length;
             
-            // Маленька анімація або сповіщення
-            var btn = event.target;
             var originalText = btn.innerText;
             btn.innerText = "Додано! ✅";
             btn.style.background = "#ffc107";
@@ -166,14 +241,12 @@
             }, 1000);
         }
 
-        // Видалення товару з кошика
         function removeFromCart(index) {
             cart.splice(index, 1);
             document.getElementById('cart-count').innerText = cart.length;
-            renderCart(); // Оновлюємо відображення кошика
+            renderCart();
         }
-// Відображення кошика
-        function renderCart() {
+function renderCart() {
             var container = document.getElementById('cart-container');
             var totalEl = document.getElementById('cart-total');
             var checkoutBtn = document.getElementById('checkout-btn');
@@ -187,62 +260,53 @@
 
             var html = "";
             var total = 0;
-
             for (var i = 0; i < cart.length; i++) {
-                var item = cart[i];
-                // Витягуємо число з рядка ціни (наприклад, з "111 грн" робимо 111)
-                var priceNum = parseInt(item.price.replace(/\D/g, ''));
+                var priceNum = parseInt(cart[i].price.replace(/\D/g, ''));
                 total += priceNum;
-
-                html += '<div class="cart-item">' +
-                        '<b>' + item.name + '</b>' +
-                        '<span>' + item.price + ' <button class="remove-btn" onclick="removeFromCart(' + i + ')">❌</button></span>' +
-                        '</div>';
+                html += '<div class="cart-item"><b>' + cart[i].name + '</b><span>' + cart[i].price + ' <button class="remove-btn" onclick="removeFromCart(' + i + ')">❌</button></span></div>';
             }
-
             container.innerHTML = html;
             totalEl.innerText = "Разом: " + total + " грн";
             checkoutBtn.style.display = "inline-block";
         }
 
-        // Оформлення замовлення (відправка всього кошика)
+        // --- НОВА СИСТЕМА ЗАМОВЛЕННЯ (Тільки для авторизованих) ---
         function checkout() {
-            var phone = prompt("Введіть ваш номер телефону для підтвердження замовлення:");
-            if (phone) {
-                var orderText = "🚀 НОВЕ ЗАМОВЛЕННЯ!\n\n";
-                var total = 0;
-                
-                // Перераховуємо товари
-                for(var i=0; i<cart.length; i++) {
-                    orderText += "🔹 " + cart[i].name + " (" + cart[i].price + ")\n";
-                    total += parseInt(cart[i].price.replace(/\D/g, ''));
-                }
-                
-                orderText += "\n💰 Разом до оплати: " + total + " грн";
-                orderText += "\n📞 Контакт: " + phone;
-
-                var text = encodeURIComponent(orderText);
-                fetch("https://api.telegram.org/bot" + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + text)
-                .then(function() { 
-                    alert("Замовлення успішно надіслано! Менеджер зв'яжеться з вами."); 
-                    // Очищаємо кошик після успішного замовлення
-                    cart = [];
-                    document.getElementById('cart-count').innerText = "0";
-                    showPage('p-home');
-                })
-                .catch(function() {
-                    alert("Помилка відправки. Спробуйте пізніше.");
-                });
+            if (!currentUser) {
+                alert("Щоб оформити замовлення, будь ласка, увійдіть у систему!");
+                openModal('m-login'); // Відкриваємо вікно авторизації
+                return;
             }
+
+            var total = 0;
+            var orderText = "🚀 НОВЕ ЗАМОВЛЕННЯ!\nКлієнт: " + currentUser.name + "\n📞 Контакт: " + currentUser.phone + "\n\nТовари:\n";
+            for(var i = 0; i < cart.length; i++) {
+                orderText += "🔹 " + cart[i].name + " (" + cart[i].price + ")\n";
+                total += parseInt(cart[i].price.replace(/\D/g, ''));
+            }
+            orderText += "\n💰 Разом до оплати: " + total + " грн";
+
+            // Надсилаємо Тобі
+            fetch("https://api.telegram.org/bot" + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + encodeURIComponent(orderText))
+            .then(function() { 
+                alert("Замовлення успішно надіслано!"); 
+                
+                // Надсилаємо чек клієнту в Telegram
+                var receiptText = "✅ Ваше замовлення на суму " + total + " грн прийнято в обробку!\nДякуємо, що підтримуєте 3Dverse!";
+                fetch("https://api.telegram.org/bot" + TOKEN + "/sendMessage?chat_id=" + currentUser.tgId + "&text=" + encodeURIComponent(receiptText));
+
+                cart = [];
+                document.getElementById('cart-count').innerText = "0";
+                showPage('p-home');
+            })
+            .catch(function() { alert("Помилка відправки. Спробуйте пізніше."); });
         }
 
-        // Початковий запуск
-        window.onload = function() {
-            renderCatalog();
-        };
+        window.onload = renderCatalog;
     </script>
 </body>
 </html>
+
 
 
 
