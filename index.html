@@ -5,43 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3Dverse — Студія 3D друку</title>
     <style>
-        body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
-        header { background: #1a1a1a; color: #00d4ff; padding: 20px; text-align: center; border-bottom: 4px solid #00d4ff; }
-        nav { background: #333; padding: 10px; text-align: center; position: sticky; top: 0; z-index: 100; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; }
+        body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 0; color: #333; }
+        header { background: #1a1a1a; color: #00d4ff; padding: 25px; text-align: center; border-bottom: 4px solid #00d4ff; }
+        nav { background: #333; padding: 10px; text-align: center; position: sticky; top: 0; z-index: 100; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 10px; }
         
-        .nav-btn { padding: 12px 20px; margin: 5px; cursor: pointer; background: #00d4ff; border: none; font-weight: bold; border-radius: 8px; }
-        .soc-btn { padding: 12px 20px; margin: 5px; cursor: pointer; background: #ff0050; color: white; border: none; font-weight: bold; border-radius: 8px; }
-        .cart-btn { padding: 12px 20px; margin: 5px; cursor: pointer; background: #ffc107; color: #333; border: none; font-weight: bold; border-radius: 8px; }
-        .login-btn { padding: 12px 20px; margin: 5px; cursor: pointer; background: #fff; color: #333; border: 2px solid #00d4ff; font-weight: bold; border-radius: 8px; margin-left: auto; }
+        .nav-btn { padding: 12px 20px; cursor: pointer; background: #00d4ff; border: none; font-weight: bold; border-radius: 8px; transition: 0.3s; }
+        .nav-btn:hover { background: #00b8e6; }
+        .soc-btn { padding: 12px 20px; cursor: pointer; background: #ff0050; color: white; border: none; font-weight: bold; border-radius: 8px; }
+        .cart-btn { padding: 12px 20px; cursor: pointer; background: #ffc107; color: #333; border: none; font-weight: bold; border-radius: 8px; }
+        .login-btn { padding: 12px 20px; cursor: pointer; background: #fff; color: #333; border: 2px solid #00d4ff; font-weight: bold; border-radius: 8px; margin-left: auto; }
         
-        .page { display: none; padding: 20px; max-width: 1000px; margin: 20px auto; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); min-height: 400px; }
+        .page { display: none; padding: 20px; max-width: 1100px; margin: 20px auto; background: white; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); min-height: 500px; }
         .active { display: block; }
 
         .products-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px 0; }
-        .product-card { border: 1px solid #eee; padding: 15px; width: 240px; text-align: center; border-radius: 12px; background: #fff; }
-        .product-img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; background: #f9f9f9; }
+        .product-card { border: 1px solid #eee; padding: 15px; width: 220px; text-align: center; border-radius: 12px; background: #fff; transition: 0.3s; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 212, 255, 0.2); }
+        .product-img { width: 100%; height: 180px; object-fit: cover; border-radius: 10px; background: #f9f9f9; margin-bottom: 10px; }
         
-        .order-btn { background: #28a745; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; border-radius: 8px; font-weight: bold; margin-top: 10px; transition: background 0.3s;}
+        .order-btn { background: #28a745; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; border-radius: 8px; font-weight: bold; transition: 0.3s; }
         .order-btn:hover { background: #218838; }
 
-        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding: 10px 0; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding: 10px; }
         .remove-btn { background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
         
-        /* Модальні вікна */
         .modal { display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
-        .modal-content { background: white; margin: 15% auto; padding: 25px; border-radius: 15px; width: 300px; text-align: center; }
+        .modal-content { background: white; margin: 10% auto; padding: 25px; border-radius: 15px; width: 320px; text-align: center; position: relative; }
         .soc-link { display: block; padding: 15px; margin: 10px 0; background: #eee; color: #333; text-decoration: none; font-weight: bold; border-radius: 10px; }
         
-        input[type="text"] { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
+        input[type="text"] { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
         
         .loader { border: 4px solid #f3f3f3; border-top: 4px solid #00d4ff; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 15px auto; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .filter-panel { text-align: center; margin-bottom: 20px; background: #f9f9f9; padding: 20px; border-radius: 10px; }
+        .filter-btn { padding: 10px 15px; margin: 5px; cursor: pointer; background: #ddd; border: none; font-weight: bold; border-radius: 8px; }
+        .active-filter { background: #00d4ff; color: white; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1 style="margin:0;">3DVERSE</h1>
+        <h1 style="margin:0; letter-spacing: 2px;">3DVERSE</h1>
     </header>
 
     <nav>
@@ -51,10 +56,12 @@
         <button class="soc-btn" onclick="openModal('m-soc')">Соцмережі 📱</button>
         <button id="nav-login-btn" class="login-btn" onclick="openModal('m-login')">Увійти 👤</button>
     </nav>
-<div id="p-home" class="page active">
-        <div style="text-align: center; padding: 40px 10px;">
+
+    <div id="p-home" class="page active">
+        <div style="text-align: center; padding: 40px 10px; display: flex; flex-direction: column; align-items: center;">
             <h2>3Dverse - СОЦІАЛЬНЕ ШКІЛЬНЕ ПІДПРИЄМНИЦТВО СПРЯМОВАНЕ НА:</h2>
-            <p style="white-space: pre-line; text-align: left; display: inline-block; max-width: 800px; font-size: 16px; line-height: 1.6;">
+            
+            <p style="white-space: pre-line; text-align: left; max-width: 800px; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
 1. Створення корисних речей для школи – навчальних матеріалів, дидактичних ігор та елементів декору, що оживляють освітній простір; 
 
 2. Підтримку дітей з особливими освітніми потребами – виготовлення тактильних матеріалів і 3D-іграшок, які допомагають навчатися через дотик і гру; 
@@ -63,258 +70,256 @@
 
 4. Соціальну підтримку громади – спрямування 15% прибутку на реалізацію освітніх і благодійних ініціатив (наприклад, закупівлю матеріалів для інклюзивних класів).
             </p>
-            <br>
-            <button class="nav-btn" onclick="showPage('p-shop')" style="padding: 15px 30px; margin-top: 20px;">Дивитися каталог</button>
+
+            <button class="nav-btn" onclick="showPage('p-shop')" style="padding: 15px 30px; margin: 0 auto; display: block;">
+                Дивитися каталог
+            </button>
         </div>
     </div>
 
     <div id="p-shop" class="page">
-        <h2 style="text-align: center;">Каталог</h2>
+        <h2 style="text-align: center;">Каталог виробів</h2>
+        <div class="filter-panel">
+            <div id="filter-buttons">
+                <button class="filter-btn active-filter" onclick="filterCategory('Всі', this)">Всі товари</button>
+                <button class="filter-btn" onclick="filterCategory('Іграшки', this)">Іграшки 🧸</button>
+                <button class="filter-btn" onclick="filterCategory('Брелки', this)">Брелки 🔑</button>
+                <button class="filter-btn" onclick="filterCategory('Антистреси', this)">Антистреси 🌀</button>
+                <button class="filter-btn" onclick="filterCategory('Корисне', this)">Корисне 🛠</button>
+            </div>
+            <div style="margin-top:15px;">
+                <label>Сортувати за ціною: </label>
+                <select id="sort-select" onchange="sortCatalog(this.value)" style="padding: 5px; border-radius: 5px;">
+                    <option value="default">За замовчуванням</option>
+                    <option value="price-asc">Від дешевих до дорогих</option>
+                    <option value="price-desc">Від дорогих до дешевих</option>
+                </select>
+            </div>
+        </div>
         <div id="items-container" class="products-grid"></div>
     </div>
 
     <div id="p-cart" class="page">
         <h2 style="text-align: center;">Ваш кошик</h2>
         <div id="cart-container" style="max-width: 600px; margin: 0 auto;"></div>
-        <div style="max-width: 600px; margin: 20px auto; text-align: right;">
+        <div style="max-width: 600px; margin: 20px auto; text-align: right; border-top: 2px solid #eee; padding-top: 20px;">
             <h3 id="cart-total">Разом: 0 грн</h3>
-            <button id="checkout-btn" class="order-btn" style="display: none; width: auto; padding: 15px 30px;" onclick="checkout()">Оформити замовлення</button>
+            <button id="checkout-btn" class="order-btn" style="display: none; width: auto; padding: 15px 40px;" onclick="checkout()">Оформити замовлення ✅</button>
         </div>
     </div>
 
     <div id="m-soc" class="modal">
         <div class="modal-content">
-            <h3>Ми в</h3>
-            <a href="https://www.instagram.com/3d.v.e.r.s.e?igsh=MTY5ZG0zcHRxbmpzbw==" target="_blank" class="soc-link">Instagram</a>
-            <a href="https://www.tiktok.com/@3d.v.e.r.s.e?_r=1&_t=ZS-94AHkaafY4G" target="_blank" class="soc-link">TikTok</a>
-            <button onclick="closeModal('m-soc')" style="margin-top:10px; cursor:pointer; border:none; background:none; color:red;">Закрити</button>
+            <h3>Зв'язок з нами</h3>
+            <a href="https://www.instagram.com/3d.v.e.r.s.e" target="_blank" class="soc-link">Instagram 📸</a>
+            <a href="https://www.tiktok.com/@3d.v.e.r.s.e" target="_blank" class="soc-link">TikTok 🎬</a>
+            <button onclick="closeModal('m-soc')" style="margin-top:10px; border:none; background:none; color:red; cursor:pointer;">Закрити</button>
         </div>
     </div>
 
     <div id="m-login" class="modal">
         <div class="modal-content">
-            <button onclick="closeAuthModal()" style="float:right; border:none; background:none; font-size:20px; cursor:pointer;">✖</button>
-            <h3 style="margin-top:0;">Вхід у систему</h3>
-            
+            <h3>Вхід у кабінет</h3>
             <div id="auth-step-1">
-                <p>Введіть номер телефону для авторизації:</p>
+                <p>Введіть номер телефону:</p>
                 <input type="text" id="user-phone" placeholder="+380..." value="+380">
                 <button class="nav-btn" style="width:100%;" onclick="startAuth()">Далі ➔</button>
             </div>
-
             <div id="auth-step-2" style="display:none;">
-                <p>Щоб підтвердити вхід, перейдіть у нашого Telegram-бота та натисніть "Розпочати"</p>
-                <a id="tg-auth-link" href="#" target="_blank" class="nav-btn" style="display:block; text-decoration:none; padding:15px; margin:15px 0;">Перейти в Telegram 🚀</a>
+                <p>Натисніть "Start" у нашому боті:</p>
+                <a id="tg-auth-link" href="#" target="_blank" class="nav-btn" style="display:block; text-decoration:none;">Відкрити Telegram 🚀</a>
                 <div class="loader"></div>
-                <p style="font-size:12px; color:#666;">Очікуємо підтвердження...</p>
+                <p style="font-size:12px; color:gray;">Чекаємо на підтвердження...</p>
             </div>
+            <button onclick="closeModal('m-login')" style="margin-top:15px; border:none; background:none; cursor:pointer;">Скасувати</button>
         </div>
     </div>
 
     <script>
-        var TOKEN = "8669138374:AAG59umyk8H570ubxyuwUxDI0_Nc9KSttB4";
-        var CHAT_ID = "6995001814"; 
-        var BOT_USERNAME = "Zamovlennya3Dverse_bot"; // <--- ОБОВ'ЯЗКОВО ЗМІНИ ЦЕ НА СВІЙ ЮЗЕРНЕЙМ (без @)
+        const TOKEN = "8669138374:AAG59umyk8H570ubxyuwUxDI0_Nc9KSttB4";
+        const CHAT_ID = "6995001814"; 
+        const BOT_USERNAME = "Zamovlennya3Dverse_bot"; 
 
-        var products = [
-            { name: "Кораблик", price: "111 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-64454ccc-9bae-48e3-a5c0-9895e4c4e689.jpg" },
-            { name: "Антистрес - Колесо", price: "65 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-ee17497a-4870-442f-b3b4-175bf8eb2b5b.jpg" },
-{ name: "Balance Game", price: "331 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-3be97cd2-b7da-44f1-b1da-90788789e15a.jpg" },
-            { name: "Брелок  Сердечко", price: "23 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-cb34c139-2531-4a2a-b22c-5d0d2527f9eb.jpg" },
-            { name: "Підставка для телефону", price: "130 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-fd978f11-2a37-46cb-984e-75085a8da3fc.jpg" },
-            { name: "Гачок", price: "12 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-c1660a01-d0b6-4841-b7d0-c0c743c83bae.jpg" },
-            { name: "Восьминіг", price: "165 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-ef4d87f4-8529-4820-b579-392ac1249c98.jpg" },
-            { name: "Котик", price: "122 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-ba775e36-69da-410f-a70c-b85328682656.jpg" }, 
-            { name: "Два сердечка", price: "12 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-8ee0d1dd-2b60-4a95-9577-60f311bffdec.jpg" },
-            { name: "Антистрес  Шестикутник", price: "92 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-e3e98495-45be-41cc-b558-33b0c9b26071.jpg" },
-            { name: "Tesla", price: "153 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-0efa1b6c-0576-48df-b682-ed47518f04da.jpg" },
-            { name: "Дельфін", price: "56 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-449d9ab2-d136-4a9f-affc-5284d690aa28.jpg" },
-            { name: "Серце в серці", price: "17 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-1bb51965-7c24-417a-9db9-8bbe35573563.jpg" },
-            { name: "Паучок", price: "27 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-a3a79d40-7ced-4193-a20a-aaaf2a181f54.jpg" },
-            { name: "Антистрес  Серце", price: "136 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-cd436bf5-2aa8-4b6c-92ec-ff1679e3fbe6.jpg" },
-            { name: "Свисток", price: "15 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-1bb8dac2-c1a2-4c29-a804-9947b88aa0af.jpg" },
-            { name: "Ящерка", price: "69 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-a0a8d738-6d9a-442f-8a9f-776682a0dc87.jpg" },
-            { name: "Собака", price: "40 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-b0e016c2-d09c-4e97-8335-8c218c52fc34.jpg" },
-            { name: "Лабубу", price: "50 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-e88e052a-0d3f-4fa6-ab0f-a16ac2cb25f2.jpg" },
-            { name: "Tralala boy", price: "53 грн", img: "https://cdn.phototourl.com/uploads/2026-02-24-291d5b7a-6afc-4b60-99b8-ffe24b86c1b9.jpg" },
-            { name: "Закладка для книги з Котиком", price: "45 грн", img: "https://cdn.phototourl.com/uploads/2026-02-24-2430d86e-92c1-4045-9386-92b22f18380b.jpg" },
-            { name: "Геометрична шестерня", price: "50 грн", img: "https://cdn.phototourl.com/uploads/2026-02-24-d7bf9a39-b98a-43cf-a837-cdc6f82cdf62.jpg" },
-            { name: "Спінер", price: "166 грн", img: "https://cdn.phototourl.com/uploads/2026-02-24-c21bab34-02c5-4937-9597-1c9d772c6294.jpg" },
-            { name: "Брелок - Ангелочок", price: "24 грн", img: "https://cdn.phototourl.com/uploads/2026-02-24-b36db2fc-c022-4548-8756-75a952bbb7b1.jpg" },
-            { name: "Жабка", price: "132 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-c47fea73-d82a-48c4-a4fb-b014c6ead627.jpg" },
-            { name: "Рухома собака", price: "49 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-1a0b0bec-a43e-4208-a58f-d235fcf29aad.jpg" },
-            { name: "Рухома акула", price: "125 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-68d3803c-37fd-4960-8d19-6251fe9f057a.jpg" },
-            { name: "Рухомий котик", price: "134 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-56731045-2784-45c8-8672-fc4754bc7a48.jpg" },
-            { name: "Сидяче яйце", price: "61 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-a08ccb55-c2b2-4985-ba39-13ba88c845fe.jpg" },
-            { name: "Змія", price: "89 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-1b56ca67-585f-4fbf-83d7-34ceb800d85a.jpg" },
-            { name: "Діно-антистрес", price: "44 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-e7784770-9860-4c9a-b7e5-1141e887ba1c.jpg" },
-            { name: "Нескінечний кубик", price: "191 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-5c37edf9-23cd-491f-8949-4d7018376d07.jpg" },
-            { name: "Рухомий брелок серце", price: "36 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-e8caf07c-868a-4e43-a94d-5468d1035da2.jpg" }
+        const products = [
+            { name: "Кораблик", price: "111 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-64454ccc-9bae-48e3-a5c0-9895e4c4e689.jpg", category: "Іграшки" },
+            { name: "Антистрес - Колесо", price: "65 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-ee17497a-4870-442f-b3b4-175bf8eb2b5b.jpg", category: "Антистреси" },
+            { name: "Balance Game", price: "331 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-3be97cd2-b7da-44f1-b1da-90788789e15a.jpg", category: "Іграшки" },
+            { name: "Брелок Сердечко", price: "23 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-cb34c139-2531-4a2a-b22c-5d0d2527f9eb.jpg", category: "Брелки" },
+            { name: "Підставка для телефону", price: "130 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-fd978f11-2a37-46cb-984e-75085a8da3fc.jpg", category: "Корисне" },
+            { name: "Гачок", price: "12 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-c1660a01-d0b6-4841-b7d0-c0c743c83bae.jpg", category: "Корисне" },
+            { name: "Восьминіг", price: "165 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-ef4d87f4-8529-4820-b579-392ac1249c98.jpg", category: "Іграшки" },
+            { name: "Котик", price: "122 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-ba775e36-69da-410f-a70c-b85328682656.jpg", category: "Іграшки" }, 
+            { name: "Два сердечка", price: "12 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-8ee0d1dd-2b60-4a95-9577-60f311bffdec.jpg", category: "Іграшки" },
+            { name: "Антистрес Шестикутник", price: "92 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-e3e98495-45be-41cc-b558-33b0c9b26071.jpg", category: "Антистреси" },
+            { name: "Tesla", price: "153 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-0efa1b6c-0576-48df-b682-ed47518f04da.jpg", category: "Іграшки" },
+            { name: "Дельфін", price: "56 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-449d9ab2-d136-4a9f-affc-5284d690aa28.jpg", category: "Антистреси" },
+            { name: "Серце в серці", price: "17 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-1bb51965-7c24-417a-9db9-8bbe35573563.jpg", category: "Брелки" },
+            { name: "Паучок", price: "27 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-a3a79d40-7ced-4193-a20a-aaaf2a181f54.jpg", category: "Іграшки" },
+            { name: "Антистрес Серце", price: "136 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-cd436bf5-2aa8-4b6c-92ec-ff1679e3fbe6.jpg", category: "Антистреси" },
+            { name: "Свисток", price: "15 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-1bb8dac2-c1a2-4c29-a804-9947b88aa0af.jpg", category: "Корисне" },
+            { name: "Ящерка", price: "69 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-a0a8d738-6d9a-442f-8a9f-776682a0dc87.jpg", category: "Антистреси" },
+            { name: "Собака", price: "40 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-b0e016c2-d09c-4e97-8335-8c218c52fc34.jpg", category: "Іграшки" },
+            { name: "Лабубу", price: "50 грн", img: "https://cdn.phototourl.com/uploads/2026-02-23-e88e052a-0d3f-4fa6-ab0f-a16ac2cb25f2.jpg", category: "Іграшки" },
+            { name: "Tralala boy", price: "53 грн", img: "https://cdn.phototourl.com/uploads/2026-02-24-291d5b7a-6afc-4b60-99b8-ffe24b86c1b9.jpg", category: "Іграшки" },
+            { name: "Закладка для книги з Котиком", price: "45 грн", img: "https://cdn.phototourl.com/uploads/2026-02-24-2430d86e-92c1-4045-9386-92b22f18380b.jpg", category: "Корисне" },
+            { name: "Геометрична шестерня", price: "50 грн", img: "https://cdn.phototourl.com/uploads/2026-02-24-d7bf9a39-b98a-43cf-a837-cdc6f82cdf62.jpg", category: "Корисне" },
+            { name: "Спінер", price: "166 грн", img: "https://cdn.phototourl.com/uploads/2026-02-24-c21bab34-02c5-4937-9597-1c9d772c6294.jpg", category: "Антистреси" },
+            { name: "Брелок - Ангелочок", price: "24 грн", img: "https://cdn.phototourl.com/uploads/2026-02-24-b36db2fc-c022-4548-8756-75a952bbb7b1.jpg", category: "Брелки" },
+            { name: "Жабка", price: "132 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-c47fea73-d82a-48c4-a4fb-b014c6ead627.jpg", category: "Іграшки" },
+            { name: "Рухома собака", price: "49 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-1a0b0bec-a43e-4208-a58f-d235fcf29aad.jpg", category: "Антистреси" },
+            { name: "Рухома акула", price: "125 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-68d3803c-37fd-4960-8d19-6251fe9f057a.jpg", category: "Антистреси" },
+            { name: "Рухомий котик", price: "134 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-56731045-2784-45c8-8672-fc4754bc7a48.jpg", category: "Антистреси" },
+            { name: "Сидяче яйце", price: "61 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-a08ccb55-c2b2-4985-ba39-13ba88c845fe.jpg", category: "Іграшки" },
+            { name: "Змія", price: "89 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-1b56ca67-585f-4fbf-83d7-34ceb800d85a.jpg", category: "Іграшки" },
+            { name: "Діно-антистрес", price: "44 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-e7784770-9860-4c9a-b7e5-1141e887ba1c.jpg", category: "Антистреси" },
+            { name: "Нескінечний кубик", price: "191 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-5c37edf9-23cd-491f-8949-4d7018376d07.jpg", category: "Антистреси" },
+            { name: "Рухомий брелок серце", price: "36 грн", img: "https://cdn.phototourl.com/uploads/2026-03-11-e8caf07c-868a-4e43-a94d-5468d1035da2.jpg", category: "Брелки" }
         ];
 
-        var cart = [];
-        var currentUser = null; 
-        var authInterval = null;
-        var currentAuthCode = null;
+        let cart = [];
+        let currentUser = null;
+        let authInterval = null;
+        let currentCategory = 'Всі';
+        let currentSort = 'default';
 
         function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-            document.getElementById(pageId).style.display = 'block';
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
             if (pageId === 'p-shop') renderCatalog();
             if (pageId === 'p-cart') renderCart();
         }
 
         function openModal(id) { document.getElementById(id).style.display = 'block'; }
-function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        function closeAuthModal() {
-            closeModal('m-login');
-            clearInterval(authInterval);
-            document.getElementById('auth-step-1').style.display = 'block';
-            document.getElementById('auth-step-2').style.display = 'none';
+        function closeModal(id) { 
+            document.getElementById(id).style.display = 'none'; 
+            if(id === 'm-login') clearInterval(authInterval);
         }
 
-        // --- ЛОГІКА АВТОРИЗАЦІЇ ---
-        function startAuth() {
-            if(BOT_USERNAME === "@Zamovlennya3Dverse_bot") {
-                alert("Помилка: Адміністратор ще не налаштував бота! Впишіть BOT_USERNAME у коді.");
-                return;
-            }
-
-            var phone = document.getElementById('user-phone').value;
-            if (phone.length < 10) return alert("Введіть коректний номер!");
-
-            currentAuthCode = Math.floor(10000 + Math.random() * 90000); 
-            var tgLink = "https://t.me/" + BOT_USERNAME + "?start=" + currentAuthCode;
-
-            document.getElementById('auth-step-1').style.display = 'none';
-            document.getElementById('auth-step-2').style.display = 'block';
-            document.getElementById('tg-auth-link').href = tgLink;
-
-            authInterval = setInterval(checkTelegramUpdates, 3000);
+        // КАТАЛОГ
+        function filterCategory(category, btn) {
+            currentCategory = category;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active-filter'));
+            btn.classList.add('active-filter');
+            renderCatalog();
         }
 
-        function checkTelegramUpdates() {
-            fetch("https://api.telegram.org/bot" + TOKEN + "/getUpdates")
-            .then(res => res.json())
-            .then(data => {
-                if (data.ok && data.result) {
-                    for (var i = 0; i < data.result.length; i++) {
-                        var msg = data.result[i].message;
-                        if (msg && msg.text === "/start " + currentAuthCode) {
-                            clearInterval(authInterval);
-                            loginSuccess(msg.from.first_name, msg.chat.id, document.getElementById('user-phone').value);
-                            return;
-                        }
-                    }
-                }
-            }).catch(e => console.log("Помилка мережі", e));
+        function sortCatalog(sort) {
+            currentSort = sort;
+            renderCatalog();
         }
 
-        function loginSuccess(name, tgId, phone) {
-            currentUser = { name: name, tgId: tgId, phone: phone };
-            alert("Успішно авторизовано! Привіт, " + name);
-            closeAuthModal();
-            
-            var loginBtn = document.getElementById('nav-login-btn');
-            loginBtn.innerText = name + " 🟢";
-            loginBtn.style.borderColor = "#28a745";
-            loginBtn.onclick = function() { alert("Ви увійшли як " + name + " (" + phone + ")"); };
-        }
-
-        // --- ЛОГІКА КОШИКА ТА КАТАЛОГУ ---
         function renderCatalog() {
-            var html = "";
-            for (var i = 0; i < products.length; i++) {
-                html += '<div class="product-card">' +
-                        '<img src="' + products[i].img + '" class="product-img">' +
-                        '<h3>' + products[i].name + '</h3>' +
-                        '<p style="color:#28a745; font-weight:bold;">' + products[i].price + '</p>' +
-                        '<button class="order-btn" onclick="addToCart(' + i + ', this)">У кошик 🛒</button>' +
-                        '</div>';
-            }
+            let filtered = products.slice();
+            if(currentCategory !== 'Всі') filtered = filtered.filter(p => p.category === currentCategory);
+            
+            if(currentSort === 'price-asc') filtered.sort((a,b) => parseInt(a.price) - parseInt(b.price));
+            if(currentSort === 'price-desc') filtered.sort((a,b) => parseInt(b.price) - parseInt(a.price));
+
+            let html = "";
+            filtered.forEach(p => {
+                html += `
+                <div class="product-card">
+                    <img src="${p.img}" class="product-img" onerror="this.src='https://via.placeholder.com/200?text=3D+Model'">
+                    <h3 style="font-size:16px; height:40px; overflow:hidden;">${p.name}</h3>
+                    <p><b>${p.price}</b></p>
+                    <button class="order-btn" onclick="addToCart('${p.name}', '${p.price}')">В кошик 🛒</button>
+                </div>`;
+            });
             document.getElementById('items-container').innerHTML = html;
         }
 
-        function addToCart(index, btn) {
-            cart.push(products[index]);
-            document.getElementById('cart-count').innerText = cart.length;
-            
-            var originalText = btn.innerText;
-            btn.innerText = "Додано! ✅";
-            btn.style.background = "#ffc107";
-            btn.style.color = "#333";
-            setTimeout(function() {
-                btn.innerText = originalText;
-                btn.style.background = "#28a745";
-                btn.style.color = "white";
-            }, 1000);
+        // КОШИК
+        function addToCart(name, price) {
+            cart.push({ name, price: parseInt(price) });
+            updateCartCount();
+            alert(`"${name}" додано до кошика!`);
         }
 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            document.getElementById('cart-count').innerText = cart.length;
+        function updateCartCount() { document.getElementById('cart-count').innerText = cart.length; }
+
+        function renderCart() {
+            let container = document.getElementById('cart-container');
+            let total = 0;
+            if(cart.length === 0) {
+                container.innerHTML = "<p style='text-align:center; padding:50px;'>Ваш кошик порожній 😔</p>";
+                document.getElementById('checkout-btn').style.display = 'none';
+            } else {
+                let html = "";
+                cart.forEach((item, index) => {
+                    html += `<div class="cart-item">
+                        <span>${item.name} — <b>${item.price} грн</b></span>
+                        <button class="remove-btn" onclick="removeFromCart(${index})">Видалити</button>
+                    </div>`;
+                    total += item.price;
+                });
+                container.innerHTML = html;
+                document.getElementById('checkout-btn').style.display = 'inline-block';
+            }
+            document.getElementById('cart-total').innerText = `Разом: ${total} грн`;
+        }
+
+        function removeFromCart(idx) {
+            cart.splice(idx, 1);
+            updateCartCount();
             renderCart();
         }
-function renderCart() {
-            var container = document.getElementById('cart-container');
-            var totalEl = document.getElementById('cart-total');
-            var checkoutBtn = document.getElementById('checkout-btn');
+
+        // АВТОРИЗАЦІЯ
+        function startAuth() {
+            let phone = document.getElementById('user-phone').value;
+            if(phone.length < 10) return alert("Введіть номер телефону!");
             
-            if (cart.length === 0) {
-                container.innerHTML = "<p style='text-align:center;'>Ваш кошик порожній 😔</p>";
-                totalEl.innerText = "";
-                checkoutBtn.style.display = "none";
-                return;
-            }
+            let code = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('auth-step-1').style.display = 'none';
+            document.getElementById('auth-step-2').style.display = 'block';
+            document.getElementById('tg-auth-link').href = `https://t.me/${BOT_USERNAME}?start=${code}`;
 
-            var html = "";
-            var total = 0;
-            for (var i = 0; i < cart.length; i++) {
-                var priceNum = parseInt(cart[i].price.replace(/\D/g, ''));
-                total += priceNum;
-                html += '<div class="cart-item"><b>' + cart[i].name + '</b><span>' + cart[i].price + ' <button class="remove-btn" onclick="removeFromCart(' + i + ')">❌</button></span></div>';
-            }
-            container.innerHTML = html;
-            totalEl.innerText = "Разом: " + total + " грн";
-            checkoutBtn.style.display = "inline-block";
+            authInterval = setInterval(() => {
+                fetch(`https://api.telegram.org/bot${TOKEN}/getUpdates`)
+                .then(r => r.json())
+                .then(d => {
+                    let update = d.result.find(u => u.message && u.message.text === "/start " + code);
+                    if(update) {
+                        currentUser = { name: update.message.from.first_name, phone: phone };
+                        loginSuccess();
+                    }
+                });
+            }, 3000);
         }
 
-        // --- НОВА СИСТЕМА ЗАМОВЛЕННЯ (Тільки для авторизованих) ---
+        function loginSuccess() {
+            clearInterval(authInterval);
+            closeModal('m-login');
+            let btn = document.getElementById('nav-login-btn');
+            btn.innerText = currentUser.name + " 🟢";
+            btn.style.borderColor = "#28a745";
+            alert("Вхід успішний!");
+        }
+
+        // ЗАМОВЛЕННЯ
         function checkout() {
-            if (!currentUser) {
-                alert("Щоб оформити замовлення, будь ласка, увійдіть у систему!");
-                openModal('m-login'); // Відкриваємо вікно авторизації
-                return;
-            }
+            if(!currentUser) return openModal('m-login');
+            
+            let total = 0;
+            let itemsText = cart.map(i => {
+                total += i.price;
+                return `- ${i.name} (${i.price} грн)`;
+            }).join("\n");
 
-            var total = 0;
-            var orderText = "🚀 НОВЕ ЗАМОВЛЕННЯ!\nКлієнт: " + currentUser.name + "\n📞 Контакт: " + currentUser.phone + "\n\nТовари:\n";
-            for(var i = 0; i < cart.length; i++) {
-                orderText += "🔹 " + cart[i].name + " (" + cart[i].price + ")\n";
-                total += parseInt(cart[i].price.replace(/\D/g, ''));
-            }
-            orderText += "\n💰 Разом до оплати: " + total + " грн";
+            let msg = `🛍 НОВЕ ЗАМОВЛЕННЯ!\n\n👤 Клієнт: ${currentUser.name}\n📞 Тел: ${currentUser.phone}\n\n📦 Склад замовлення:\n${itemsText}\n\n💰 ВСЬОГО: ${total} грн`;
 
-            // Надсилаємо Тобі
-            fetch("https://api.telegram.org/bot" + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + encodeURIComponent(orderText))
-            .then(function() { 
-                alert("Замовлення успішно надіслано!"); 
-                
-                // Надсилаємо чек клієнту в Telegram
-                var receiptText = "✅ Ваше замовлення на суму " + total + " грн прийнято в обробку!\nДякуємо, що підтримуєте 3Dverse!";
-                fetch("https://api.telegram.org/bot" + TOKEN + "/sendMessage?chat_id=" + currentUser.tgId + "&text=" + encodeURIComponent(receiptText));
-
+            fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(msg)}`)
+            .then(() => {
+                alert("Дякуємо! Ваше замовлення надіслано в Telegram. Ми зв'яжемося з вами.");
                 cart = [];
-                document.getElementById('cart-count').innerText = "0";
+                updateCartCount();
                 showPage('p-home');
-            })
-            .catch(function() { alert("Помилка відправки. Спробуйте пізніше."); });
+            });
         }
-
-        window.onload = renderCatalog;
     </script>
 </body>
 </html>
+
 
 
 
